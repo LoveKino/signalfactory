@@ -1,0 +1,26 @@
+{
+  "name": "signalfactory",
+  "version": "0.0.1",
+  "description": "signal factory",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LoveKino/signalfactory.git"
+  },
+  "keywords": [
+    "signal",
+    "factory"
+  ],
+  "author": "ddchen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LoveKino/signalfactory/issues"
+  },
+  "homepage": "https://github.com/LoveKino/signalfactory#readme"
+}
