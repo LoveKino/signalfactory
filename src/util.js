@@ -22,9 +22,19 @@ let shadowClone = v => {
     return newV;
 };
 
+let isJson = v => {
+    try {
+        JSON.stringify(v);
+        return true;
+    } catch (err) {
+        return false;
+    }
+};
+
 module.exports = {
     isFunction,
     checkType,
     isObject,
-    shadowClone
+    shadowClone,
+    isJson
 };

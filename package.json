@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/LoveKino/signalfactory/issues"
   },
-  "homepage": "https://github.com/LoveKino/signalfactory#readme"
+  "homepage": "https://github.com/LoveKino/signalfactory#readme",
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  }
 }

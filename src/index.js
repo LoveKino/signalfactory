@@ -5,6 +5,7 @@ let util = require('./util');
 let shadowClone = util.shadowClone;
 let checkType = util.checkType;
 let isFunction = util.isFunction;
+let isJson = util.isJson;
 
 /**
  * suggestion:
@@ -25,31 +26,46 @@ let signalMatrix = [];
 // generate a signal factory
 let SignalFactory = () => {
     let signals = [];
+    let sfIndex = signalMatrix.length;
     signalMatrix.push(signals);
 
+    // generate signal function
     return (converter) => {
         checkType(converter, isFunction, 'function');
+        let manage = signalHandlerManage();
         let signal = (e) => {
             let signalData = converter(e);
-            // TODO check signalData
+            return dispatch(signalData);
+        };
+
+        let dispatch = (signalData) => {
+            if(SignalFactory.mode === 'development') {
+                checkType(signalData, isJson, 'json');
+            }
+            // only shadow clone
             let clonedSignalData = shadowClone(signalData);
             // TODO handleInfos
-            manage.pass(clonedSignalData);
+            let rets = manage.pass(clonedSignalData);
             // handle process
             // promise to indicate that finished or not, and a special event to indicate time point (recovery point)
+            return rets;
         };
-        let manage = signalHandlerManage();
-        signal.subscribe = manage.push;
 
+        let sIndex = signals.length;
+        let getCoord = () => {
+            return [sfIndex, sIndex];
+        };
+
+        signal.subscribe = manage.push;
+        signal.dispatch = dispatch;
+        signal.getCoord = getCoord;
+
+        // serialization
         signals.push(signal);
         return signal;
     };
 };
 
-// default system signal factory
-let systemSignalFactory = SignalFactory();
+SignalFactory.mode = 'production';
 
-// exports
-SignalFactory.systemSignalFactory = systemSignalFactory;
-SignalFactory.signalMatrix = signalMatrix;
 module.exports = SignalFactory;
